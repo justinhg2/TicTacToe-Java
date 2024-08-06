@@ -1,3 +1,7 @@
+/*
+    Justin Greenberg - 8/6/2024
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -5,22 +9,26 @@ import java.awt.event.ActionListener;
 
 public class TicTacToe implements ActionListener
 {
-    private JButton[] buttons = new JButton[9];
+    //making instance variables
+    private final JButton[] buttons = new JButton[9];
     private boolean player1Turn = true;
     private boolean finished = false;
-    private JLabel title;
+    private final JLabel title;
     public TicTacToe()
     {
+        //creating main frame
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(800,600));
 
+        //making main panel and adding it to the frame with formatting
         JPanel panel = new JPanel();
         panel.setBackground(new Color(30,140,230));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         frame.add(panel);
         panel.add(new Spacer(new Dimension(800,10)));
 
+        //creating a panel for the title
         JPanel titlePanel = new JPanel();
         titlePanel.setBackground(new Color(60,176,255));
         titlePanel.setMaximumSize(new Dimension(780,80));
@@ -28,11 +36,13 @@ public class TicTacToe implements ActionListener
         panel.add(titlePanel);
         panel.add(new Spacer(new Dimension(800,10)));
 
+        //adding label to the title panel
         title = new JLabel();
         title.setText(getFormattedText());
         title.setFont(new Font("Arial",Font.BOLD,45));
         titlePanel.add(title);
 
+        //making a panel for the buttons, and a panel inside of that (innerPaneL) for formatting
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque(true);
         buttonPanel.setMaximumSize(new Dimension(780,490));
@@ -45,6 +55,7 @@ public class TicTacToe implements ActionListener
         buttonPanel.add(innerPanel);
         buttonPanel.add(new Spacer(new Dimension(780,20)));
 
+        //iterating through buttons to add them to the innerPanel
         for(int i = 0; i < 9; i++)
         {
             buttons[i] = new JButton();
@@ -55,19 +66,19 @@ public class TicTacToe implements ActionListener
             buttons[i].addActionListener(this);
             innerPanel.add(buttons[i]);
         }
-
         panel.add(buttonPanel);
         panel.add(new Spacer(new Dimension(800,10)));
-
 
         frame.setVisible(true);
     }
 
+    //detects button clicks, handles the game functionality
     @Override
     public void actionPerformed(ActionEvent e)
     {
         for(int i = 0; i < 9; i++)
         {
+            //checks for which turn, if the button is empty
             if(e.getSource() == buttons[i] && player1Turn && buttons[i].getText().isEmpty() && !finished)
             {
                 buttons[i].setForeground(new Color(209, 0, 0));
@@ -93,6 +104,7 @@ public class TicTacToe implements ActionListener
         }
     }
 
+    //gives formatted text for the title Label
     public String getFormattedText()
     {
         if(player1Turn)
@@ -105,6 +117,7 @@ public class TicTacToe implements ActionListener
         }
     }
 
+    //checks for a winner, first the 3 across, then 3 down, then the 2 diagonals
     public String getWinner()
     {
 
@@ -172,6 +185,7 @@ public class TicTacToe implements ActionListener
                 return buttons[2].getText();
             }
         }
+        //if no winner, just returns null
         return null;
     }
 }
